@@ -12,13 +12,18 @@
     <tbody>
       <% @list.items.each do |item| %>
         <tr>
-          <td><%= item.name %></td>
+          <td><%= item.name %> <%= !item.tags.empty? ? item.tags.map {|t| t.name }  : "" %></td>
           <td><%= link_to content_tag(:i, nil, class: 'fa fa-trash'), [@list, item], method: :delete, class: 'btn btn-danger' %></td>
         </tr>
       <% end %>
 
       <tr>
-        <td><%= new_item.text_field :name %></td>
+        <td>Item:<%= new_item.text_field :name %>
+        Tags:<%= new_item.collection_check_boxes :tag_ids, Tag.all, :id, :name do |t| %>
+            <%= t.check_box %>
+            <%= t.label %>
+          <% end %>
+        </td>
         <td>
           <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
             <i class='fa fa-plus' aria-hidden="true"></i>
