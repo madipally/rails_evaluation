@@ -12,7 +12,7 @@
     <tbody>
       <% @list.items.each do |item| %>
         <tr>
-          <td><%= item.name %> <%= !item.tags.empty? ? item.tags.map {|t| t.name }  : "" %></td>
+          <td><%= item.name %> <b>Tags</b>: <%= item.tags.map(&:name).sort.join(",")%> </td>
           <td><%= link_to content_tag(:i, nil, class: 'fa fa-trash'), [@list, item], method: :delete, class: 'btn btn-danger' %></td>
         </tr>
       <% end %>
