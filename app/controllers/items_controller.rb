@@ -2,9 +2,26 @@ class ItemsController < ApplicationController
   before_action :set_list, only: [:create, :destroy]
 
   def create
-    @list.items.create(item_params)
-    @new_item = Item.new
-    redirect_to @list
+    @new_item = @list.items.new(item_params)
+    respond_to do |format|
+      if @new_item.save
+        format.html { redirect_to @list, notice: 'Item was successfully created' }
+      else
+        format.html { redirect_to @list, notice: "#{@new_item.errors.full_messages.map(&:inspect).join(',') }" }
+      end
+    end
+    
+    #@new_item = @list.items.new(item_params)
+    
+    #respond_to do |format|
+    #  if @new_item.save
+    #     format.html { redirect_to @list, notice: 'Item was successfully created.' }
+    #  else
+    #      format.html {redirect_to @list }
+    #  end
+    # end  
+    #@new_item = Item.new
+    #redirect_to @list
   end
 
   def destroy
